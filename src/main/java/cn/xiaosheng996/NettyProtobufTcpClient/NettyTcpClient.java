@@ -40,8 +40,13 @@ public class NettyTcpClient {
 			}
 		});
 
-		ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port));
-		System.out.println("----channel:"+future.channel());
+		ChannelFuture future;
+		try {
+			future = bootstrap.connect(new InetSocketAddress(host, port)).sync();
+			System.out.println("----channel:"+future.channel());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		//future.channel().closeFuture().awaitUninterruptibly();
 	}
 	
